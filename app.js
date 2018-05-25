@@ -6,7 +6,7 @@ process.env : require('./config')
 const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
-const router =require('./router')
+const router = require('./router')
 
 
 mongoose.Promise = Promise;

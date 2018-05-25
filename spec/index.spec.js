@@ -57,7 +57,7 @@ describe('/topics', () => {
         .expect(201)
         .then(response => {
           expect(response.body).to.be.an('object');
-          expect(response.text).to.equal(`Article added : "title": test, "body": test article`)
+          expect(response.body.article.title).to.equal("test")
         })
     })
 })
@@ -101,7 +101,8 @@ describe('/articles', () => {
               .expect(201)
               .then(response => {
                 expect(response.body).to.be.an('object');
-                expect(response.text).to.be.equal(`Comment added :  "body": Test`)
+                expect(response.body.comment.body).to.be.equal("Test")
+                
             })
     })
     it('PUT return 200 for /articles/:articleid?vote=up and increases the number of votes an article has.', () => {
@@ -158,8 +159,7 @@ describe('/comments', () => {
           .expect(200)
           .then(response => {
             expect(response.body).to.be.an('object')
-            expect(response.body).to.be.eql({})
-            expect(response.text).to.be.equal(`comment:${commentId} deleted successfully`)
+            expect(Object.keys(response.body).length).to.equal(1)
         })
 
     })

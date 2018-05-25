@@ -1,4 +1,4 @@
-const {User, Article, ComMent} = require('../models');
+const {User, Article, Comment} = require('../models');
 const {formatCommentData, formatArticlesWithCommentCount} = require('../utils')
 
 
@@ -7,7 +7,7 @@ exports.getAllArticles = ((req, res, next) => {
   Article.find()
     .populate('created_by','username -_id')
     .then(articles => {
-      return Promise.all([articles, ...articles.map(artObj => ComMent.count({ belongs_to: artObj._id }))])
+      return Promise.all([articles, ...articles.map(artObj => Comment.count({ belongs_to: artObj._id }))])
     })
     .then(([articles, ...commentCounts]) => {
       const formatedArticles = articles.map((article, i) => {
@@ -55,7 +55,7 @@ exports.getArticlesById = ((req, res, next) => {
 
 exports.getCommentsByArticle = ((req, res, next) => {
     const articleId = req.params.article_id;
-    ComMent.find({ belongs_to: articleId })
+    Comment.find({ belongs_to: articleId })
       .populate('created_by','username -_id')
       .then(comments => {
         const formatedComments = comments.map((comment, i) => {
@@ -80,10 +80,12 @@ exports.getCommentsByArticle = ((req, res, next) => {
 });
   
 exports.addCommentToArticle = (req, res, next) => {
-    const newComment = new ComMent({body: req.body.body, belongs_to: req.params.article_id,created_by: '5b058261f82dc80c7c5fb422'})
-    return ComMent.create(newComment)
+  return User.findOne().then((user) => {
+      const newComment = new Comment({body: req.body.body, belongs_to: req.params.article_id,created_by: user._id})
+        return Comment.create(newComment)
+    })
     .then(comment => {
-        res.status(201).send(`Comment added :  "body": ${comment.body}`);
+        res.status(201).send({comment});
     })
     .catch(err => {
       next({

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
-const {Article, ComMent, Topic, User} = require('../models')
+const {Article, Comment, Topic, User} = require('../models')
 const testData = require('./testData')
 const devData = require('./devData')
 const {formatArticleData, createUserRef, formatCommentData} = require('../utils')
@@ -16,7 +16,7 @@ exports.seedDB = () => {
             return Promise.all([Article.insertMany(formatArticleData(rawData.articleData, topicDocs, userRef)), userDocs, topicDocs])
             })
             .then(([articleDocs, userDocs, topicDocs]) => {
-                return Promise.all([ComMent.insertMany(formatCommentData(rawData.commentData, articleDocs, userDocs)), userDocs, topicDocs, articleDocs])
+                return Promise.all([Comment.insertMany(formatCommentData(rawData.commentData, articleDocs, userDocs)), userDocs, topicDocs, articleDocs])
             })
             .then(docs => docs)
       

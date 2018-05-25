@@ -1,9 +1,9 @@
-const {User, Article, ComMent} = require('../models');
+const {User, Article, Comment} = require('../models');
 
 
 
 exports.getCommentsById = ((req, res, next) => {
-    ComMent.findById(req.params.comment_id)
+    Comment.findById(req.params.comment_id)
     .populate('created_by', 'username -_id')
     .then(comment => {
         let {_id, body, belongs_to, votes, created_at} = comment
@@ -29,7 +29,7 @@ exports.inputVotesByComment = ((req, res, next) => {
   req.query.vote !== 'up' ? (req.query.vote !== 'down' ?
   next({status: 400, msg: msg}) : null) : null;
     const commentId = req.params.comment_id
-    return ComMent.findByIdAndUpdate(commentId)
+    return Comment.findByIdAndUpdate(commentId)
     .then(comment => {
       if(req.query.vote === 'up') comment.votes ++;
       else if(req.query.vote === 'down') comment.votes --;
@@ -40,9 +40,9 @@ exports.inputVotesByComment = ((req, res, next) => {
 
 exports.deleteById = ((req, res, next) => {
     const commentId = req.params.comment_id
-    return Promise.all([ComMent.findByIdAndRemove(commentId),commentId])
+    return Promise.all([Comment.findByIdAndRemove(commentId),commentId])
     .then(([comment, commentId]) => {
-    res.status(200).send(`comment:${commentId} deleted successfully`);  
+    res.status(200).send({comment});  
     
     })
     .catch(err => {

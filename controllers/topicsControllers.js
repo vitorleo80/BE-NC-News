@@ -1,4 +1,4 @@
-const {Topic, Article} = require('../models');
+const {Topic, Article, User} = require('../models');
 
 
 
@@ -32,11 +32,12 @@ exports.getArticlesByTopic = (req, res, next) => {
 }
 
 exports.addArticleToTopic = ((req, res, next) => {
-    const newArticle = new Article({ title: req.body.title, body: req.body.body, belongs_to: req.params.topic_title, created_by:'5b06f200ccd9707a900471c2'})
+  return User.findOne().then((user) => { 
+    const newArticle = new Article({ title: req.body.title, body: req.body.body, belongs_to: req.params.topic_title, created_by: user._id})
         return Article.create(newArticle)
-    .then(article => {
-        res.status(201).send(`Article added : "title": ${article.title}, "body": ${article.body}`);
-        // res.status(201).send({article});
+  })
+  .then(article => {
+        res.status(201).send({article});
       })
       .catch(err => {
         next({
