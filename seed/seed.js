@@ -13,12 +13,12 @@ exports.seedDB = () => {
         User.insertMany(rawData.userData)])
         .then(([topicDocs, userDocs]) => {
             const userRef = createUserRef(rawData.userData, userDocs);
-            return Promise.all([Article.insertMany(formatArticleData(rawData.articleData, topicDocs, userRef)), userDocs])
+            return Promise.all([Article.insertMany(formatArticleData(rawData.articleData, topicDocs, userRef)), userDocs, topicDocs])
             })
-            .then(([articleDocs, userDocs]) => {
-            return ComMent.insertMany(formatCommentData(rawData.commentData, articleDocs, userDocs))
+            .then(([articleDocs, userDocs, topicDocs]) => {
+                return Promise.all([ComMent.insertMany(formatCommentData(rawData.commentData, articleDocs, userDocs)), userDocs, topicDocs, articleDocs])
             })
-            .then(commentDocs => console.log('Database seeded with sucess'))
+            .then(docs => docs)
       
 }
 

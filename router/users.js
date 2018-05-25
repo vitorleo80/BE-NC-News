@@ -1,11 +1,14 @@
 const express = require('express');
-const {getUsersById}= require('../controllers/usersControllers');
+const {getUsersById, getByUsername}= require('../controllers/usersControllers');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
 
-router.route('/:user_id')
+router.route('/id/:user_id')
   .get(getUsersById)
+
+router.route('/:username')
+  .get(getByUsername)
 
 
 

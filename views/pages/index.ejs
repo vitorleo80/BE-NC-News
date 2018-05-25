@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+
+<style>
+    body {
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    h1{
+        font-size: 55px;
+    }
+
+
+    .color {
+        color: #a50e0e;
+    }
+
+    .description{
+        font-size: 15px;
+    }
+
+</style>
+
+
+    <h1>Northcoders <span class='color'>News API</span></h1>
+    <h2>Here is a list of the available endpoints.</h2>
+
+    <h2>
+        GET <span class='color'>/api/topics</span> <br>
+        
+        <span class='description'>Get all the topics</span>
+
+        
+    </h2>
+
+    <h2>
+        GET <span class='color'>/api/topics/:topic_id/articles</span> <br>
+        
+        <span class='description'>Return all the articles for a certain topic</span>
+    
+        
+    </h2>
+
+    <h2>
+        GET <span class='color'>/api/articles</span><br>
+        
+        <span class='description'>Returns all the articles</span>
+        
+        
+    </h2>
+
+    <h2>
+        GET <span class='color'>/api/articles/:article_id/comments</span> <br>
+        
+        <span class='description'>Get all the comments for a individual article</span>
+        
+        
+    </h2>
+
+    <h2>
+        POST <span class='color'>/api/articles/:article_id/comments</span> <br>
+        
+        <span class='description'>Add a new comment to an article. This route requires a JSON body with a comment key and value pair
+        e.g: {"comment": "This is my new comment"}</span>
+        
+        
+    </h2>
+
+    <h2>
+        PUT <span class='color'>/api/articles/:article_id</span> <br>
+        
+        <span class='description'>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'
+        e.g: /api/articles/:article_id?vote=up</span>
+        
+        
+    </h2>
+    
+    <h2>
+        PUT <span class='color'>/api/comments/:comment_id</span> <br>
+        
+        <span class='description'>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'
+        e.g: /api/comments/:comment_id?vote=down</span>
+        
+        
+    </h2>
+
+    <h2>
+        DELETE <span class='color'>/api/comments/:comment_id</span> <br>
+        
+        <span class='description'>Deletes a comment</span>
+        
+        
+    </h2>
+
+    <h2>
+        GET <span class='color'>/api/users</span> <br>
+                
+        <span class='description'>Returns a JSON object with the profile data for all users.</span>
+                
+    </h2>
+
+    <h2>
+        GET <span class='color'>/api/users/:username</span> <br>
+        
+        <span class='description'>Returns a JSON object with the profile data for the specified user.</span>
+        
+    </h2>
+
+
+
+
+</body>
+</html>

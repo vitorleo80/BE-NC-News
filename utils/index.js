@@ -1,3 +1,6 @@
+const devData = require('../seed/devData')
+
+
 exports.createUserRef = (data, docs) => {
     return data.reduce((acc, datum, index) => {
       acc[datum.username] = docs[index]._id;
