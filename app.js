@@ -1,11 +1,12 @@
-process.env.NODE_ENV = !process.env.NODE_ENV ? 'dev' : 'test'
+if(process.env.NODE_ENV === undefined) process.env.NODE_ENV = 'dev'
 
-const app = require('express')();
-const { DB_URL } = require('./config');
-const mongoose = require('mongoose');
-const express = require('express');
-const bodyParser = require('body-parser');
-const router =require('./router');
+const app = require('express')()
+const { DB_URL } = process.env.NODE_ENV === "production" ? 
+process.env : require('./config')
+const mongoose = require('mongoose')
+const express = require('express')
+const bodyParser = require('body-parser')
+const router =require('./router')
 
 
 mongoose.Promise = Promise;
@@ -14,22 +15,22 @@ mongoose.connect(DB_URL).then(() => {
     console.log(`connected to the database...${DB_URL}`)
 })
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 
 app.use(bodyParser.json());
-app.use('/api', router);
+app.use('/api', router)
 
 app.get('/', (req, res, next) => {
     res.send('Hello')
 })
 
 app.get('/api', (req, res, next) => {
-    res.render('pages/index');
-  });
+    res.render('pages/index')
+  })
 
 app.use('/*', (req, res, next) => {
-    next({ status:404, msg: 'Page not found'});
-});
+    next({ status:404, msg: 'Page not found'})
+})
 
 
 app.use((err, req, res, next) =>{

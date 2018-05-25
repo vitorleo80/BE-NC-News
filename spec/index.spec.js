@@ -29,7 +29,7 @@ after(() => {
   })
 
 describe('/topics', () => {
-   it('returns 200 for /topics and all topics', () => {
+   it('GET returns 200 for /topics and all topics', () => {
      return request
        .get('/api/topics')
        .expect(200)
@@ -38,7 +38,7 @@ describe('/topics', () => {
          expect(response.body.topics.length).to.equal(2)
         })
     })
-   it('returns 200 for /:topic_id/articles and an object of all articles related to that topic', () => {
+   it('GET returns 200 for /:topic_id/articles and an object of all articles related to that topic', () => {
     return request
       .get('/api/topics/mitch/articles')
       .expect(200)
@@ -48,7 +48,7 @@ describe('/topics', () => {
         expect(response.body.articles[0].belongs_to).to.be.eql('mitch')
       });
     })
-    it('returns 201 for /:topic_id/articles and add a new article to a topic and an object of all articles related to that topic', () => {
+    it('POST returns 201 for /:topic_id/articles and add a new article to a topic and an object of all articles related to that topic', () => {
         return request
         .post('/api/topics/cats/articles')
         .send(
@@ -62,7 +62,7 @@ describe('/topics', () => {
     })
 })
 describe('/articles', () => {
-    it('returns 200 for /articles and all articles', () => {
+    it('GET returns 200 for /articles and all articles', () => {
       return request
         .get('/api/articles')
         .expect(200)
@@ -71,7 +71,7 @@ describe('/articles', () => {
           expect(response.body.formatedArticles.length).to.equal(4)
          })
     })
-    it('returns 200 for /articles/:article_id and an individual article', () => {
+    it('GET returns 200 for /articles/:article_id and an individual article', () => {
         const articleId = articles[0]._id;
         return request
           .get(`/api/articles/${articleId}`)
@@ -82,7 +82,7 @@ describe('/articles', () => {
             expect(response.body.formatedArticle._id).to.equal(`${articleId}`)
           });
     });
-    it('returns 200 for /articles/:article_id/comments and all the comments for a individual article', () => {
+    it('GET returns 200 for /articles/:article_id/comments and all the comments for a individual article', () => {
         const articleId = articles[0]._id
         return request
           .get(`/api/articles/${articleId}/comments`)
@@ -92,7 +92,7 @@ describe('/articles', () => {
             expect(Object.keys(response.body).length).to.equal(1)
           });
     });
-    it('returns 201 for /articles/:articleid/comments and add a new article to an article ', () => {
+    it('POST returns 201 for /articles/:articleid/comments and add a new article to an article ', () => {
         const articleId = articles[0]._id
         const user = users[0]._id
             return request
@@ -104,7 +104,7 @@ describe('/articles', () => {
                 expect(response.text).to.be.equal(`Comment added :  "body": Test`)
             })
     })
-    it('return 200 for /articles/:articleid?vote=up and increases the number of votes an article has.', () => {
+    it('PUT return 200 for /articles/:articleid?vote=up and increases the number of votes an article has.', () => {
         const articleId = articles[0]._id
         const actualVotes = articles[0].votes
         return request
@@ -115,7 +115,7 @@ describe('/articles', () => {
             expect(response.body.article.votes).to.equal(actualVotes + 1)
         });
     });
-    it('return 200 for /articles/:articleid?vote=down and decreases the number of votes an article has.', () => {
+    it('PUT return 200 for /articles/:articleid?vote=down and decreases the number of votes an article has.', () => {
         const articleId = articles[0]._id
         const actualVotes = articles[0].votes
         return request
@@ -129,7 +129,7 @@ describe('/articles', () => {
   
 })
 describe('/comments', () => {
-    it('return 200 for /comments/:comment_id?vote=up and increases the number of votes an article has.', () => {
+    it('PUT return 200 for /comments/:comment_id?vote=up and increases the number of votes an article has.', () => {
         const commentId = comments[0]._id
         const actualVotes = comments[0].votes
         return request
@@ -140,7 +140,7 @@ describe('/comments', () => {
             expect(response.body.comment.votes).to.equal(actualVotes + 1)
         });
     });
-    it('return 200 for /comments/:comment_id?vote=down and decreases the number of votes an article has.', () => {
+    it('PUT return 200 for /comments/:comment_id?vote=down and decreases the number of votes an article has.', () => {
         const commentId = comments[0]._id
         const actualVotes = comments[0].votes
         return request
@@ -151,7 +151,7 @@ describe('/comments', () => {
             expect(response.body.comment.votes).to.equal(actualVotes - 1)
         });
     });
-    it('return 200 for /comments/:comment_id and remove a new comment.', () => {
+    it('DELETE return 200 for /comments/:comment_id and remove a new comment.', () => {
         const commentId = comments[0]._id;      
         return request
           .delete(`/api/comments/${commentId}`)
@@ -167,7 +167,7 @@ describe('/comments', () => {
  
 })
 describe('/users', () => {
-    it('returns 200 for /users/:username and a JSON object with the profile data for the specified user.', () => {
+    it('GET returns 200 for /users/:username and a JSON object with the profile data for the specified user.', () => {
         const username = users[0].username;
         return request
           .get(`/api/users/${username}`)
@@ -182,7 +182,7 @@ describe('/users', () => {
  
 })
 describe('/topics ***ERROR HANDLING***', () => {
-    it('returns 404 for /topics and an invalid topic', () => {
+    it('GET returns 404 for /topics and an invalid topic', () => {
       return request
         .get('/api/topics/travel')
         .expect(404)
@@ -191,7 +191,7 @@ describe('/topics ***ERROR HANDLING***', () => {
           expect(response.body).to.be.eql({ msg: 'Page not found' })
         })
     })
-    it('returns 404 for /:topic_id/articles for an invalid path', () => {
+    it('GET returns 404 for /:topic_id/articles for an invalid path', () => {
      return request
        .get('/api/topics/cats/artles')
        .expect(404)
@@ -200,7 +200,7 @@ describe('/topics ***ERROR HANDLING***', () => {
         expect(response.body).to.be.eql({ msg: 'Page not found' })
        });
      })
-     it('returns 400 for /:topic_id/articles and add a new article to a topic and an object of all articles related to that topic', () => {
+     it('POST returns 400 for /:topic_id/articles and add a new article to a topic and an object of all articles related to that topic', () => {
          return request
          .post('/api/topics/cats/articles')
          .send(
@@ -214,7 +214,7 @@ describe('/topics ***ERROR HANDLING***', () => {
      })
 })
 describe('/articles', () => {
-    it('returns 404 for /articles with wrong path', () => {
+    it('GET returns 404 for /articles with wrong path', () => {
       return request
         .get('/api/artles')
         .expect(404)
@@ -223,7 +223,7 @@ describe('/articles', () => {
           expect(response.body).to.be.eql({ msg: 'Page not found' })
          })
     })
-    it('returns 400 for /articles/:article_id with an invalid Id', () => {
+    it('GET returns 400 for /articles/:article_id with an invalid Id', () => {
         return request
           .get('/api/articles/039382721')
           .expect(400)
@@ -232,7 +232,7 @@ describe('/articles', () => {
           expect(response.body).to.be.eql({ msg: 'Id not Found' })
           });
     });
-    it('returns 400 for /articles/:article_id/comments with a wrong path', () => {
+    it('GET returns 400 for /articles/:article_id/comments with a wrong path', () => {
         return request
           .get('/api/articles/039382721/comments')
           .expect(400)
@@ -241,7 +241,7 @@ describe('/articles', () => {
            expect(response.body).to.be.eql({ msg: 'Id not Found' })
           });
     });
-    it('returns 400 for /articles/:articleid/comments posting a comment with a wrong format or invalid data ', () => {
+    it('POST returns 400 for /articles/:articleid/comments posting a comment with a wrong format or invalid data ', () => {
         const articleId = articles[0]._id
         const user = users[0]._id
             return request
@@ -253,7 +253,7 @@ describe('/articles', () => {
                 expect(response.body).to.be.eql({ msg: 'Wrong Format' })
             })
     })
-    it('return 400 for /articles/:articleid?vote= voting with a invalid input', () => {
+    it('PUT return 400 for /articles/:articleid?vote= voting with a invalid input', () => {
         const articleId = articles[0]._id
         const actualVotes = articles[0].votes
         return request
@@ -267,7 +267,7 @@ describe('/articles', () => {
   
 })
 describe('/comments', () => {
-    it('returns 400 for /comments/:comments_id with an invalid Id', () => {
+    it('GET returns 400 for /comments/:comments_id with an invalid Id', () => {
         return request
           .get('/api/comments/039382721')
           .expect(400)
@@ -277,7 +277,7 @@ describe('/comments', () => {
           })
     })
 
-    it('return 400 for /comments/:comment_id?vote= voting with a invalid input', () => {
+    it('PUT return 400 for /comments/:comment_id?vote= voting with a invalid input', () => {
         const commentId = comments[0]._id
         const actualVotes = comments[0].votes
         return request
@@ -288,7 +288,7 @@ describe('/comments', () => {
             expect(response.body).to.be.eql({ msg: 'Invalid input, use "up" to add a vote or "down" to decrease it.' })
         });
     });
-    it('return 400 for /comments/:comment_id with an invalid id when making a delete request.', () => {
+    it('DELETE return 400 for /comments/:comment_id with an invalid id when making a delete request.', () => {
         return request
           .delete('/api/comments/5a7da24fef50584178e3a4')
           .expect(400)
@@ -300,7 +300,7 @@ describe('/comments', () => {
 })
 describe('/users', () => {
     
-    it('will return a 404 error for an invalid user', () => {
+    it('GET will return a 404 error for an invalid user', () => {
         const username = users[0].username;
         return request
           .get(`/api/users/vitor`)
