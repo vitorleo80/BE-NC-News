@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'dev';
+process.env.NODE_ENV = !process.env.NODE_ENV ? 'dev' : 'production'
 
 const {seedDB} = require('./seed')
 const mongoose = require('mongoose')
