@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use('/api', router)
 
 app.get('/', (req, res, next) => {
-    res.send('Hello')
+    res.render('pages/index')
 })
 
 app.get('/api', (req, res, next) => {
