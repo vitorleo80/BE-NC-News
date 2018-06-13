@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
 const router = require('./router')
+const cors = require('cors')
 
 
 mongoose.Promise = Promise;
@@ -15,6 +16,7 @@ mongoose.connect(DB_URL).then(() => {
     console.log(`connected to the database...${DB_URL}`)
 })
 
+app.use(cors())
 app.set('view engine', 'ejs')
 
 app.use(bodyParser.json());
