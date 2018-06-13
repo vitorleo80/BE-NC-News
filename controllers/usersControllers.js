@@ -32,3 +32,19 @@ exports.getByUsername = ((req, res, next) => {
       })
     
 })
+
+
+exports.getAllUsers = ((req, res, next) => {
+  
+  return User.find()
+    .then(users => { console.log(users)
+      res.send({ users });
+    })
+    .catch(err => {
+      next({
+        status: 404,
+        msg: 'User not Found'
+      })
+    
+    })
+})
