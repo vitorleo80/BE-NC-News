@@ -11,7 +11,7 @@ exports.getCommentsById = ((req, res, next) => {
           _id, body, belongs_to, votes, created_at,
           created_by: comment.created_by.username,
         }
-        res.status(200).send({formatedComment})
+        res.status(200).send({comments: formatedComment})
     })
     .catch(err => {
         return next({
@@ -34,7 +34,7 @@ exports.inputVotesByComment = ((req, res, next) => {
       if(req.query.vote === 'up') comment.votes ++;
       else if(req.query.vote === 'down') comment.votes --;
       return comment.save();
-    }).then(comment => res.status(200).send({comment}))
+    }).then(comment => res.status(200).send({comments: comment}))
     .catch(next)
 });
 
@@ -42,7 +42,7 @@ exports.deleteById = ((req, res, next) => {
     const commentId = req.params.comment_id
     return Promise.all([Comment.findByIdAndRemove(commentId),commentId])
     .then(([comment, commentId]) => {
-    res.status(200).send({comment});  
+    res.status(200).send({comments: comment});  
     
     })
     .catch(err => {

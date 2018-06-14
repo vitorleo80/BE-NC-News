@@ -68,7 +68,7 @@ exports.getCommentsByArticle = ((req, res, next) => {
        return formatedComments   
       })
       .then(formatedComments=> {
-        res.status(200).send({formatedComments})
+        res.status(200).send({comments: formatedComments})
       })
       .catch(err => {
         next({
@@ -85,7 +85,7 @@ exports.addCommentToArticle = (req, res, next) => {
         return Comment.create(newComment)
     })
     .then(comment => {
-        res.status(201).send({comment});
+        res.status(201).send({comments: comment});
     })
     .catch(err => {
       next({
