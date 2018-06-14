@@ -21,7 +21,7 @@ exports.getAllArticles = ((req, res, next) => {
      return formatedArticles   
     })
     .then(formatedArticles=> {
-      res.status(200).send({formatedArticles})
+      res.status(200).send({articles: formatedArticles})
     })
     .catch(err => {
         return next({
@@ -41,7 +41,7 @@ exports.getArticlesById = ((req, res, next) => {
         _id, title, body, belongs_to, votes,
         created_by: articles.created_by.username,
       }
-      res.status(200).send({formatedArticles})
+      res.status(200).send({articles: formatedArticles})
     })
     .catch(err => {
       next({
