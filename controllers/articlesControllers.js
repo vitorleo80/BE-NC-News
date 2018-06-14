@@ -37,11 +37,11 @@ exports.getArticlesById = ((req, res, next) => {
     .populate('created_by','username -_id')
     .then(articles => {
       let {_id, title, body, belongs_to, votes} = articles
-      const formatedArticle = {
+      const formatedArticles = {
         _id, title, body, belongs_to, votes,
         created_by: articles.created_by.username,
       }
-      res.status(200).send({formatedArticle})
+      res.status(200).send({formatedArticles})
     })
     .catch(err => {
       next({
