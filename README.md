@@ -2,7 +2,7 @@
 
 Northcoders News is a social news aggregation, web content rating, and discussion website. It is similar to Reddit in that Northcoders News has articles which are divided into topics. Each article has user curated ratings and can be up or down voted using the API. Users can also add comments about an article. Comments can also be up or down voted. A user can add comments and remove any comments which they have added, but the user is unable to delete another users comments.
 
-This application is hosted online, you can see it in action here: https://norhtcoders-app.herokuapp.com
+This application is hosted online, you can see it in action here: https://northcoders-app.herokuapp.com
 
 ## Getting Started
 
